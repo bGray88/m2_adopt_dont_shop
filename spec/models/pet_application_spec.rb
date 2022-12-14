@@ -11,13 +11,36 @@ RSpec.describe PetApplication, type: :model do
       shelter     = create(:shelter)
       application = Application.create!(name: "Anthony", street_address: "place", city: "Tino", state: "CO", zip_code: "24325", description: "hellp", status: "pending")
       pet         = application.pets.create!(adoptable: true, age: 99, breed: "terrier", name: "booboo", shelter: shelter)
-      application.pets << pet
+      # application.pets << pet
       pet_app = PetApplication.find_by(pet_id: pet.id)
       expect(pet_app.status).to eq("pending")
 
       pet_app.accepted!
 
       expect(pet_app.status).to eq("accepted")
+
+      pet_app.rejected!
+
+      expect(pet_app.status).to eq("rejected")
+    end
+  end
+
+  describe '#change_status' do
+    it 'can change the status via instance method' do
+      shelter     = create(:shelter)
+      application = Application.create!(name: "Anthony", street_address: "place", city: "Tino", state: "CO", zip_code: "24325", description: "hellp", status: "pending")
+      pet         = application.pets.create!(adoptable: true, age: 99, breed: "terrier", name: "booboo", shelter: shelter)
+      # application.pets << pet
+      pet_app = PetApplication.find_by(pet_id: pet.id)
+      expect(pet_app.status).to eq("pending")
+
+      pet_app.change_status("accepted")
+
+      expect(pet_app.status).to eq("accepted")
+      
+      pet_app.change_status("rejected")
+
+      expect(pet_app.status).to eq("rejected")
     end
   end
 end
