@@ -26,8 +26,8 @@ class ApplicationsController < ApplicationController
 
   def update
     @application = Application.find(params[:id])
-    if params[:pet] && @application.pets.find_by(id: params[:pet]).blank?
-      @application.add_pet(params[:pet])
+    if params[:pet] && PetApplication.find_by(pet_id: params[:pet], application_id: @application.id).blank?
+      PetApplication.add_record(@application.id, params[:pet])
     elsif params[:commit] == "submit"
       @application.pending!
     end
