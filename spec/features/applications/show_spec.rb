@@ -4,10 +4,11 @@ RSpec.describe 'the application show' do
 
   before :each do
     @application = create(:application)
-    @shelter_1   = create(:shelter)
-    @pet_1       = create(:pet, shelter: @shelter_1)
-    @pet_2       = create(:pet, shelter: @shelter_1)
-    @pet_3       = create(:pet, shelter: @shelter_1)
+    # @application_2 = create(:application)
+    @shelter_1     = create(:shelter)
+    @pet_1         = create(:pet, shelter: @shelter_1)
+    @pet_2         = create(:pet, shelter: @shelter_1)
+    @pet_3         = create(:pet, shelter: @shelter_1)
   end
 
   describe 'User Story #1' do
