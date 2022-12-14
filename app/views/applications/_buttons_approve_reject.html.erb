@@ -1,6 +1,6 @@
-<% if @status == "accepted"%>
+<% if @status == "accepted" %>
   <p>This pet has been approved</p>
-<% elsif @status == "rejected"%>
+<% elsif @status == "rejected" %>
   <p>This pet has been rejected</p>
 <% else %>
   <%= button_to "Approve", "/admin/applications/#{@application.id}?approve_reject=accepted&pet_id=#{pet.id}" %>

@@ -17,20 +17,16 @@ class ApplicationsController < ApplicationController
   def show
     @application = Application.find(params[:id])
     @pets = Pet.all
-    @selected_pets = @application.pets
+    @selected_pets = @application.pets unless @application.pets.blank?
     @search_pets = Pet.search(params[:search]) if params[:search].present?
     @status = params[:approve_reject]
-    pet_app = PetApplication.find_by(pet_id: params[:pet_id])
-    if @status == "accepted"
-      pet_app.accepted!
-    elsif @status == "rejected"
-      pet_app.rejected!
-    end
+    @pet_app = PetApplication.find_by(pet_id: params[:pet_id], application_id: @application.id)
+    @pet_app.change_status(@status) if (@pet_app && @status)
   end
 
   def update
     @application = Application.find(params[:id])
-    if params[:pet] && @application.pets.find_by(id: params[:pet]).nil?
+    if params[:pet] && @application.pets.find_by(id: params[:pet]).blank?
       @application.add_pet(params[:pet])
     elsif params[:commit] == "submit"
       @application.pending!

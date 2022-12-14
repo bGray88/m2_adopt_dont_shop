@@ -1,42 +1,37 @@
 <h1><%= @application.name %></h1>
+
+<%= label :text, :address, 'Address: ' %>
+<%= @application.street_address %> 
+<%= @application.city %>, 
+<%= @application.state %> 
+<%= @application.zip_code %><br>
 <h3>
-  <%= label :text, :address, 'Address: ' %>
-  <%= @application.street_address %> 
-  <%= @application.city %>, 
-  <%= @application.state %> 
-  <%= @application.zip_code %><br>
-  <h3>
-    <%= label :text, :description, 'Description: ' %>
-    <%= @application.description %><br>
-  </h3>
-
-  <div class="avail-pets-cta">
-    <h3>
-      <%= label :text, :pets_list, 'Available Pets: ' %><br>
-      <%= render partial: "shared/all_pets" %>
-    </h3>
-  </div>
-
-  <% if @selected_pets %>
-    <div class="select-pets-cta">
-      <h3>
-        <%= label :text, :pets_list, 'Selected Pets: ' %><br>
-        <% @selected_pets.each do |pet| %>
-          <pre><h3>   <%= link_to "#{pet.name}", "pets/#{pet.id}" %>
-          <% if request.path_info.include?("admin") %>
-            <%= render partial: "buttons_approve_reject", locals: {pet: pet} %></h3></pre>
-          <% end %>
-        <% end %>
-      </h3>
-    </div>
-  <% end %>
-
-    <h3>
-      <%= label :text, :status, 'Status: ' %>
-      <%= @application.status %>
-    </h3>
-
-  <% if @application.status == "in progress" %>
-    <%= render partial: "in_progress" %>
-  <% end %>
+  <%= label :text, :description, 'Description: ' %>
+  <%= @application.description %><br>
 </h3>
+
+<% if @selected_pets %>
+  <div class="select-pets-cta">
+    <h3><%= label :text, :pets_list, 'Selected Pets: ' %></h3>
+    <% @selected_pets.each do |pet| %>
+      <h3><%= link_to "#{pet.name}", "pets/#{pet.id}" %></h3>
+      <% if request.path_info.include?("admin") %>
+        <%= render partial: "buttons_approve_reject", locals: {pet: pet} %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<h3>
+  <%= label :text, :status, 'Status: ' %>
+  <%= @application.status %>
+</h3>
+
+<% if @application.status == "in progress" %>
+  <%= render partial: "in_progress" %>
+<% end %>
+
+<div class="avail-pets-cta">
+  <h3><%= label :text, :pets_list, 'Available Pets: ' %></h3>
+  <%= render partial: "shared/all_pets" %>
+</div>
