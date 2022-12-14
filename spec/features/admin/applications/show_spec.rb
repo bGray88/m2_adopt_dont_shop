@@ -9,13 +9,7 @@ RSpec.describe 'admin applications show page' do
     @application_1.pets << @pet_1
     @application_2.pets << @pet_1
   end
-# As a visitor
-# When I visit an admin application show page ('/admin/applications/:id')
-# For every pet that the application is for, I see a button to approve the application for that specific pet
-# When I click that button
-# Then I'm taken back to the admin application show page
-# And next to the pet that I approved, I do not see a button to approve this pet
-# And instead I see an indicator next to the pet that they have been approved
+
   it 'will have an approve button next to each pet' do
     visit "/admin/applications/#{@application_1.id}" 
 
@@ -50,11 +44,9 @@ RSpec.describe 'admin applications show page' do
     it 'will a approve a pet on one application but not another' do
 
       visit "/admin/applications/#{@application_1.id}"
-      pet_app_1 = PetApplication.where(pet_id: @pet_1.id, application_id: @application_1.id).first
-      pet_app_2 = PetApplication.where(pet_id: @pet_1.id, application_id: @application_2.id).first
-      # binding.pry
-      # other_pet_app_1 = PetApplication.find_by(pet_id: @pet_1.id)
-
+      pet_app_1 = PetApplication.find_by(pet_id: @pet_1.id, application_id: @application_1.id)
+      pet_app_2 = PetApplication.find_by(pet_id: @pet_1.id, application_id: @application_2.id)
+      
       expect(page).to have_content(@pet_1.name)
       expect(pet_app_1.status).to eq("pending")
       expect(pet_app_2.status).to eq("pending")
@@ -77,8 +69,8 @@ RSpec.describe 'admin applications show page' do
     it 'will a reject a pet on one application but not another' do
 
       visit "/admin/applications/#{@application_1.id}"
-      pet_app_1 = PetApplication.where(pet_id: @pet_1.id, application_id: @application_1.id).first
-      pet_app_2 = PetApplication.where(pet_id: @pet_1.id, application_id: @application_2.id).first
+      pet_app_1 = PetApplication.find_by(pet_id: @pet_1.id, application_id: @application_1.id)
+      pet_app_2 = PetApplication.find_by(pet_id: @pet_1.id, application_id: @application_2.id)
 
       expect(page).to have_content(@pet_1.name)
       expect(pet_app_1.status).to eq("pending")
@@ -97,7 +89,6 @@ RSpec.describe 'admin applications show page' do
       expect(page).to have_button("Approve")
       expect(page).to have_button("Reject")
       expect(page).to_not have_content("This pet has been rejected")
-
     end
   end
 end

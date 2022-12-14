@@ -10,12 +10,7 @@ class Application < ApplicationRecord
   validates_presence_of :zip_code
   validates_presence_of :description
 
-  def add_pet(pet)
-    self.pets << Pet.find(pet)
-  end
-
   def self.pending_shelter_ids
     where(status: "pending").joins(:pets).distinct.pluck(:shelter_id)
   end
-
 end
